@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090912">
+<title>CreatorX — Create. Edit. Share.</title>
+<style>
+:root{
+  --bg:#090912;--surface:#11111d;--surface2:#181827;--text:#f7f7ff;
+  --muted:#9b9bb3;--line:#29293d;--accent:#a855f7;--accent2:#22d3ee;
+  --danger:#fb7185;--shadow:0 20px 60px #0007;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:radial-gradient(circle at 15% 0%,#24134a 0,#090912 34%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+body{min-height:100vh}
+button,input{font:inherit}
+button{border:0;cursor:pointer;color:inherit}
+.app{max-width:520px;margin:auto;min-height:100vh;background:linear-gradient(180deg,#0b0b15ee,#090912)}
+.topbar{height:74px;padding:18px 18px 10px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;background:#090912d9;backdrop-filter:blur(20px);border-bottom:1px solid #ffffff08}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px;letter-spacing:-.8px}
+.logo{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#ec4899 55%,#22d3ee);box-shadow:0 0 28px #a855f755;font-weight:1000;font-size:18px}
+.top-actions{display:flex;gap:8px}
+.icon-btn{width:38px;height:38px;border-radius:13px;background:var(--surface2);border:1px solid var(--line);display:grid;place-items:center;font-size:17px}
+main{padding:18px 16px 105px}
+.view{display:none;animation:fade .25s ease}.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--accent2);font-size:12px;text-transform:uppercase;letter-spacing:1.7px;font-weight:800}
+h1{font-size:31px;line-height:1.08;margin:8px 0 10px;letter-spacing:-1.5px}
+h2{font-size:22px;margin:0 0 14px;letter-spacing:-.7px}
+p{color:var(--muted);line-height:1.55;margin:0}
+.gradient-text{background:linear-gradient(90deg,#c084fc,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero{padding:24px 0 20px}
+.hero-card{position:relative;overflow:hidden;padding:24px;border-radius:27px;background:linear-gradient(135deg,#1d1238,#111827 60%,#102b35);border:1px solid #ffffff18;box-shadow:var(--shadow)}
+.hero-card:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-60px;top:-65px;background:#a855f733;filter:blur(5px)}
+.hero-card h1{max-width:320px}
+.primary{padding:13px 18px;border-radius:14px;background:linear-gradient(100deg,#8b5cf6,#ec4899);font-weight:800;box-shadow:0 8px 25px #a855f744}
+.secondary{padding:12px 16px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);font-weight:700}
+.actions{display:flex;gap:10px;margin-top:20px;position:relative;z-index:1}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:25px 0 13px}
+.link{color:#c084fc;font-size:13px;font-weight:800}
+.story-row{display:flex;gap:15px;overflow:auto;padding-bottom:4px}
+.story{min-width:64px;text-align:center;font-size:11px;color:var(--muted)}
+.avatar{width:58px;height:58px;border-radius:20px;padding:2px;background:linear-gradient(135deg,#ec4899,#8b5cf6,#22d3ee);margin:auto auto 6px}
+.avatar span{display:grid;place-items:center;width:100%;height:100%;border-radius:18px;background:#202033;font-weight:900}
+.story.add .avatar{background:var(--surface2);border:1px dashed #77758f;padding:0}
+.story.add .avatar span{background:transparent;font-size:25px}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-bottom:17px}
+.post-head{display:flex;align-items:center;gap:10px;padding:14px}
+.mini-avatar{width:36px;height:36px;border-radius:13px;background:linear-gradient(135deg,#22d3ee,#8b5cf6);display:grid;place-items:center;font-weight:900}
+.post-head small{display:block;color:var(--muted);margin-top:2px}
+.more{margin-left:auto;background:transparent;font-size:20px}
+.post-art{height:260px;display:grid;place-items:center;position:relative;overflow:hidden}
+.art-one{background:linear-gradient(135deg,#17113c,#7c3aed 45%,#ec4899)}
+.art-two{background:linear-gradient(135deg,#062b38,#0e7490 48%,#a7f3d0)}
+.art-three{background:linear-gradient(135deg,#27120c,#ea580c 50%,#facc15)}
+.post-art:before,.post-art:after{content:"";position:absolute;border-radius:50%;background:#ffffff18}
+.post-art:before{width:230px;height:230px;left:-80px;top:-80px}
+.post-art:after{width:300px;height:300px;right:-130px;bottom:-170px}
+.art-title{position:relative;z-index:1;text-align:center;font-size:30px;font-weight:1000;letter-spacing:-1px;text-shadow:0 5px 20px #0005}
+.post-actions{display:flex;gap:18px;padding:13px 15px 5px;font-size:21px}
+.post-actions button{background:transparent}
+.post-caption{padding:5px 15px 16px;font-size:14px}.post-caption b{margin-right:5px}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:78px;padding:9px 8px 12px;background:#0c0c16eF;backdrop-filter:blur(22px);border-top:1px solid #ffffff12;display:grid;grid-template-columns:repeat(5,1fr);z-index:20}
+.nav-item{background:transparent;color:#77778f;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:5px;font-weight:700}
+.nav-item .nav-icon{font-size:21px;line-height:22px}.nav-item.active{color:#c084fc}
+.nav-item.upload .nav-icon{width:45px;height:34px;border-radius:13px;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:grid;place-items:center;color:white;margin-top:-4px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tool-card{background:var(--surface);border:1px solid var(--line);border-radius:19px;padding:17px;min-height:132px;transition:.2s}
+.tool-card:active{transform:scale(.97)}
+.tool-icon{font-size:28px;margin-bottom:12px}.tool-card b{display:block;font-size:14px}.tool-card span{color:var(--muted);font-size:12px;display:block;margin-top:5px;line-height:1.35}
+.editor{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;margin-top:18px}
+.editor-preview{height:180px;border-radius:16px;background:linear-gradient(135deg,#211047,#0e7490);display:grid;place-items:center;text-align:center;margin-bottom:15px}
+.editor-preview strong{font-size:23px}.timeline{height:58px;border-radius:12px;background:#0a0a12;border:1px solid var(--line);display:flex;align-items:center;padding:7px;gap:5px;overflow:hidden}
+.clip{height:42px;min-width:78px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#ec4899);font-size:10px;display:grid;place-items:center;font-weight:800}
+.clip:nth-child(2){background:linear-gradient(135deg,#0891b2,#22d3ee)}.clip:nth-child(3){background:linear-gradient(135deg,#ea580c,#facc15)}
+.tool-row{display:flex;gap:8px;overflow:auto;margin-top:14px}.tool-pill{white-space:nowrap;padding:10px 13px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:12px;font-weight:700}
+.search{width:100%;padding:15px 16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);color:var(--text);outline:none;margin:10px 0 20px}
+.profile-card{text-align:center;padding:25px;background:linear-gradient(145deg,#171329,#111827);border:1px solid var(--line);border-radius:24px}
+.profile-avatar{width:86px;height:86px;margin:auto;border-radius:29px;background:linear-gradient(135deg,#ec4899,#8b5cf6,#22d3ee);display:grid;place-items:center;font-size:30px;font-weight:1000}
+.stats{display:flex;justify-content:space-around;margin:22px 0}.stats b{display:block;font-size:19px}.stats span{color:var(--muted);font-size:12px}
+.row-card{display:flex;align-items:center;gap:13px;padding:15px;background:var(--surface);border:1px solid var(--line);border-radius:17px;margin-top:10px}.row-card .row-icon{font-size:22px}.row-card b{font-size:14px}.row-card span{display:block;color:var(--muted);font-size:12px;margin-top:3px}.row-card .arrow{margin-left:auto;color:var(--muted)}
+.upload-box{border:1px dashed #6d5a94;background:#171329;border-radius:23px;padding:30px 20px;text-align:center;margin-top:15px}.upload-box .big{font-size:42px}.upload-box input{display:none}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(15px);background:#f7f7ff;color:#11111d;padding:12px 17px;border-radius:14px;font-weight:800;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:50;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%)}
+@media(min-width:600px){body{padding:0 15px}.app{box-shadow:0 0 80px #0008}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">CX</div><span>Creator<span class="gradient-text">X</span></span></div>
+  <div class="top-actions"><button class="icon-btn" onclick="toggleTheme()">☼</button><button class="icon-btn" onclick="notify('Notifications are coming soon')">♡</button></div>
+</header>
+
+<main>
+<section id="home" class="view active">
+  <div class="hero">
+    <div class="eyebrow">Welcome back, creator</div>
+    <h1>Turn your ideas into <span class="gradient-text">something iconic.</span></h1>
+    <p>Create, edit and share your world from one beautiful workspace.</p>
+    <div class="actions"><button class="primary" onclick="showView('upload')">＋ Create now</button><button class="secondary" onclick="showView('edit')">Open editor</button></div>
+  </div>
+  <div class="section-head"><h2>Stories</h2><span class="link">View all</span></div>
+  <div class="story-row">
+    <div class="story add"><div class="avatar"><span>＋</span></div>Add story</div>
+    <div class="story"><div class="avatar"><span>AR</span></div>Arjun</div>
+    <div class="story"><div class="avatar"><span>NS</span></div>Nisha</div>
+    <div class="story"><div class="avatar"><span>VK</span></div>Vikram</div>
+    <div class="story"><div class="avatar"><span>RM</span></div>Riya</div>
+  </div>
+  <div class="section-head"><h2>For you</h2><span class="link">Latest</span></div>
+  <article class="post"><div class="post-head"><div class="mini-avatar">A</div><div><b>Arjun Mehta</b><small>2 hours ago · Public</small></div><button class="more">•••</button></div><div class="post-art art-one"><div class="art-title">MAKE<br>YOUR MARK</div></div><div class="post-actions"><button onclick="like(this)">♡</button><button onclick="notify('Comment section opened')">◯</button><button onclick="notify('Post shared')">↗</button><button style="margin-left:auto" onclick="notify('Saved to collection')">⌑</button></div><div class="post-caption"><b>Arjun Mehta</b> Small steps. Big creative energy. ✨</div></article>
+  <article class="post"><div class="post-head"><div class="mini-avatar">N</div><div><b>Nisha Sharma</b><small>5 hours ago · Public</small></div><button class="more">•••</button></div><div class="post-art art-two"><div class="art-title">CREATE<br>FEARLESSLY</div></div><div class="post-actions"><button onclick="like(this)">♡</button><button>◯</button><button>↗</button><button style="margin-left:auto">⌑</button></div><div class="post-caption"><b>Nisha Sharma</b> Your next idea deserves to exist.</div></article>
+</section>
+
+<section id="reels" class="view">
+  <div class="eyebrow">Discover</div><h1>Reels that <span class="gradient-text">move you.</span></h1>
+  <div class="post"><div class="post-art art-three" style="height:480px"><div class="art-title">YOUR<br>STORY<br>YOUR STYLE</div><button class="primary" style="position:absolute;bottom:22px;z-index:2" onclick="notify('Playing reel…')">▶ Play reel</button></div><div class="post-caption"><b>CreatorX Studio</b> A little inspiration for your next edit. #CreatorX</div></div>
+</section>
+
+<section id="upload" class="view">
+  <div class="eyebrow">New project</div><h1>Bring your <span class="gradient-text">vision</span> to life.</h1>
+  <div class="upload-box"><div class="big">＋</div><h2>Upload media</h2><p>Select photos or videos from your device to start creating.</p><label class="primary" style="display:inline-block;margin-top:20px">Choose files<input type="file" accept="image/*,video/*" multiple onchange="filesChosen(this)"></label></div>
+  <div class="section-head"><h2>Start from a template</h2></div>
+  <div class="grid"><div class="tool-card" onclick="notify('Template selected')"><div class="tool-icon">🎬</div><b>Reel starter</b><span>Fast-paced social video</span></div><div class="tool-card" onclick="notify('Template selected')"><div class="tool-icon">✨</div><b>Glow aesthetic</b><span>Neon cinematic style</span></div></div>
+</section>
+
+<section id="messages" class="view">
+  <div class="eyebrow">Connect</div><h1>Your creative <span class="gradient-text">circle.</span></h1>
+  <input class="search" placeholder="⌕  Search messages">
+  <div class="row-card"><div class="mini-avatar">N</div><div><b>Nisha Sharma</b><span>That edit looks amazing 🔥</span></div><div class="arrow">›</div></div>
+  <div class="row-card"><div class="mini-avatar">V</div><div><b>Vikram Kapoor</b><span>Sent you a video</span></div><div class="arrow">›</div></div>
+  <div class="row-card"><div class="mini-avatar">R</div><div><b>Riya Malhotra</b><span>Let's collaborate!</span></div><div class="arrow">›</div></div>
+</section>
+
+<section id="find" class="view">
+  <div class="eyebrow">Explore</div><h1>Find your <span class="gradient-text">people.</span></h1>
+  <input class="search" placeholder="⌕  Search creators, tags or sounds">
+  <div class="section-head"><h2>Trending creators</h2></div>
+  <div class="row-card"><div class="mini-avatar">A</div><div><b>Arjun Mehta</b><span>Video creator · 12.4K followers</span></div><button class="secondary" onclick="notify('Following Arjun')">Follow</button></div>
+  <div class="row-card"><div class="mini-avatar">S</div><div><b>Sana Khan</b><span>Editor & storyteller · 8.7K followers</span></div><button class="secondary" onclick="notify('Following Sana')">Follow</button></div>
+</section>
+
+<section id="profile" class="view">
+  <div class="profile-card"><div class="profile-avatar">SD</div><h2 style="margin-top:15px">Your Creator Profile</h2><p>@creatorx_user · Building something great</p><div class="stats"><div><b>24</b><span>Posts</span></div><div><b>2.4K</b><span>Followers</span></div><div><b>318</b><span>Following</span></div></div><button class="primary" onclick="notify('Profile editor opened')">Edit profile</button></div>
+  <div class="row-card" onclick="showView('edit')"><div class="row-icon">✦</div><div><b>My Editing Center</b><span>Projects, drafts and creative tools</span></div><div class="arrow">›</div></div>
+  <div class="row-card" onclick="toggleTheme()"><div class="row-icon">◐</div><div><b>Appearance</b><span>Switch between dark and light mode</span></div><div class="arrow">›</div></div>
+  <div class="row-card" onclick="notify('Settings opened')"><div class="row-icon">⚙</div><div><b>Settings and privacy</b><span>Account, security and preferences</span></div><div class="arrow">›</div></div>
+</section>
+
+<section id="edit" class="view">
+  <div class="eyebrow">Creator tools</div><h1>My Editing <span class="gradient-text">Center.</span></h1><p>Your all-in-one studio for professional content.</p>
+  <div class="editor"><div class="editor-preview"><div><strong>CREATORX<br><span class="gradient-text">STUDIO</span></strong><p style="margin-top:7px">Your project preview</p></div></div><div class="timeline"><div class="clip">CLIP 01</div><div class="clip">CLIP 02</div><div class="clip">CLIP 03</div></div><div class="tool-row"><button class="tool-pill" onclick="notify('Trim tool selected')">✂ Trim</button><button class="tool-pill" onclick="notify('Text tool selected')">T Text</button><button class="tool-pill" onclick="notify('Filters opened')">◈ Filters</button><button class="tool-pill" onclick="notify('Audio library opened')">♫ Audio</button></div><button class="primary" style="width:100%;margin-top:15px" onclick="notify('Export started')">Export project ↗</button></div>
+  <div class="section-head"><h2>Professional tools</h2></div>
+  <div class="grid"><div class="tool-card" onclick="notify('Video import opened')"><div class="tool-icon">🎞️</div><b>Import media</b><span>Photos, videos and projects</span></div><div class="tool-card" onclick="notify('Audio Center opened')"><div class="tool-icon">♫</div><b>Audio Center</b><span>Music, effects and voice-over</span></div><div class="tool-card" onclick="notify('AI tools opened')"><div class="tool-icon">✦</div><b>AI tools</b><span>Captions, enhancement and cutout</span></div><div class="tool-card" onclick="notify('Templates opened')"><div class="tool-icon">▦</div><b>Templates</b><span>Start faster with presets</span></div></div>
+</section>
+</main>
+
+<nav class="bottom-nav">
+<button class="nav-item active" data-view="home" onclick="showView('home')"><span class="nav-icon">⌂</span>Home</button>
+<button class="nav-item" data-view="reels" onclick="showView('reels')"><span class="nav-icon">▣</span>Reels</button>
+<button class="nav-item upload" data-view="upload" onclick="showView('upload')"><span class="nav-icon">＋</span><span>Upload</span></button>
+<button class="nav-item" data-view="messages" onclick="showView('messages')"><span class="nav-icon">◌</span>Message</button>
+<button class="nav-item" data-view="profile" onclick="showView('profile')"><span class="nav-icon">●</span>Profile</button>
+</nav>
+<div id="toast" class="toast"></div>
+</div>
+<script>
+const views=['home','reels','upload','messages','find','profile','edit'];
+function showView(id){
+  views.forEach(v=>document.getElementById(v).classList.toggle('active',v===id));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.view===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function notify(text){const t=document.getElementById('toast');t.textContent=text;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
+function like(btn){btn.textContent=btn.textContent==='♡'?'♥':'♡';btn.style.color=btn.textContent==='♥'?'#fb7185':''}
+function filesChosen(input){if(input.files.length)notify(input.files.length+' file(s) selected — editor ready')}
+function toggleTheme(){document.body.classList.toggle('light');if(document.body.classList.contains('light')){document.documentElement.style.setProperty('--bg','#f5f5fb');document.documentElement.style.setProperty('--surface','#ffffff');document.documentElement.style.setProperty('--surface2','#eeeef8');document.documentElement.style.setProperty('--text','#171725');document.documentElement.style.setProperty('--muted','#66667b');document.documentElement.style.setProperty('--line','#dedeee');notify('Light mode enabled')}else{location.reload()}}
+</script>
+</body>
+</html>
